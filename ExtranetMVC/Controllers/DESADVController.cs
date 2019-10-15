@@ -1264,7 +1264,7 @@ namespace ExtranetMVC.Controllers
                     + etichetta.HANNUM.PadRight(35, ' ')
                     + etichetta.AGENCY.PadRight(35, ' ')
                     + etichetta.HANTYPE.PadRight(35, ' ');
-                
+                //commento di test
                 if (etichetta.NUMETIQUETA2.HasValue == false)
                 {
                     sMessaggio += "".PadRight(35, ' ');
