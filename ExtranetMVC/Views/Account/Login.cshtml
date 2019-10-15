@@ -1,0 +1,231 @@
+﻿<!------ Include the above in your HEAD tag ---------->
+@model ExtranetMVC.Models.LoginView
+@{
+    ViewBag.Title = "Account Login";
+
+}
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <section class="login-block">
+        @*<div class="container">*@
+        <div class="row">
+            <div class="col-md-9 row offset-1" style="padding-left:0px; ">
+                <div class="col-md-4 login-sec " style="padding-left:0px;">
+                    <h2 class="text-center">Login Now</h2>
+                    <form class="login-form ">
+
+                        <div class="form-group" style="margin-left:-1.5em;">
+                            <label for="iUserName" class="text-uppercase">Username</label>
+                            @Html.TextBoxFor(m => m.UserName, htmlAttributes: new { @class = "form-control" })
+                            @*<input id="UserName" type="text" autocomplete="username"  name="UserName" class="form-control">*@
+
+                        </div>
+                        <div class="form-group" style="margin-left:-1.5em;">
+                            <label for="iPassWord" class="text-uppercase">Password</label>
+                            @Html.TextBoxFor(m => m.Password, htmlAttributes: new { @type = "password", @name = "Password", @class = "form-control" })
+                            @*<input id="iPassWord" autocomplete="current-password" type="password" name="Password" class="form-control" placeholder="">*@
+                        </div>
+                        <div id="changepsw" class="form-group collapse" style="margin-left:-1.5em;">
+                            <label for="iNewPassWord" class="text-uppercase">New password</label>
+                            <input id="iNewPassWord" type="password" name="NewPassword" class="form-control" placeholder="">
+
+                        </div>
+                        <div id="changepsw" class="form-group collapse " style="margin-left:-1.5em;">
+                            <label for="iConfirmPassWord" class="text-uppercase">Confirm new password</label>
+                            <input id="iConfirmPassWord" type="password" name="ConfirmPassword" class="form-control" placeholder="">
+                        </div>
+                        @Html.ValidationSummary("", new { @class = "helper-text" })
+
+                        <div class="form-group">
+                            <label class="form-check-label">
+                                <input type="checkbox" name="RememberMe" value="true" class="form-check-input ">
+                                <small>Remember Me</small>
+                            </label>
+                            <a class="float-right" data-toggle="collapse" href="#changepsw" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Change Password
+                            </a>
+                            <hr />
+                            <hr />
+
+                            <button type="submit" class="btn btn-login float-right">Submit</button>
+                        </div>
+                        @*@Html.i(m => m.ChangedPSW, htmlAttributes: new { @hidden="hidden",  @class = "form-control" })*@
+                    </form>
+
+                </div>
+                <div class="col-md-5 banner-sec " style="width:50%;">
+                    <input type="checkbox" name="RememberMe" value="false" hidden="hidden" class="form-check-input ">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox" @*style="width:500px; height:500px;"*@>
+                            <div class="carousel-item active">
+                                <img class="d-block img-fluid" src="~/Content/2.png" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <div class="banner-text">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalEsito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="false" aria-hidden="true">
+            <div class="modal-dialog " style="border: 1pt solid #fff" role="document">
+                <div class="modal-content bg-black" style="border-bottom:none;">
+                    <divk class="modal-header">
+                        <h5 class="modal-title" id="modalEsitoTitolo"></h5>
+                        <button type="button" hidden class="close" data-dismiss="modal" aria-label="Close">
+                            <span style="color:ghostwhite" aria-hidden="true">&times;</span>
+                        </button>
+                    </divk>
+                    <div class="modal-body" style="border:none;" id="modalEsitoBody">
+
+                    </div>
+                    <div class="modal-footer" style="border-top:none;">
+                        <a href="~/Account/Index" type="button" class="btn btn-secondary" @*data-dismiss="modal"*@>Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*</div>*@
+    </section>
+}
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            if ('@ViewBag.Changed'==='True') {
+                $("#modalEsitoTitolo").text("Password changed!");
+                $("#modalEsitoBody").text("Password changed!");
+                $('#modalEsito').modal('show');
+
+            }
+            //alert("ciao");
+
+        });
+    </script>
+}
+
+<style>
+    @@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+
+    .login-block {
+        /*background: #DE6262; /* fallback for old browsers */
+        /*background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262); /* Chrome 10-25, Safari 5.1-6 */
+        /*background: linear-gradient(to bottom, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        /*float: left;*/
+        width: 100%;
+        /*padding : 50px 0;*/
+    }
+    /*.banner-sec{background:url(/Content/3.png)  no-repeat left bottom; background-size:cover; min-height:500px; border-radius: 0 10px 10px 0; padding:0;}*/
+    .container {
+        background: #fff;
+        border-radius: 10px; /* box-shadow:15px 20px 0px rgba(0,0,0,0.1);*/
+        max-width: 800px;
+    }
+
+    #idbody {
+        padding: 0px;
+    }
+
+    .carousel-inner {
+        border-radius: 0 0px 0px 0;
+        width: 529px;
+        height: 530px;
+        max-width: 530px;
+        max-height: 530px;
+        margin-top: -1em;
+    }
+
+    .carousel-caption {
+        text-align: left;
+        left: 5%;
+    }
+
+    .login-sec {
+        padding-top: 1em; /*30px;*/
+        position: relative;
+    }
+
+
+        .login-sec .copy-text {
+            position: absolute;
+            width: 80%;
+            bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+            .login-sec .copy-text i {
+                color: #00ff2c;
+            }
+
+            .login-sec .copy-text a {
+                color: #E36262;
+            }
+
+        .login-sec h2 {
+            margin-bottom: 0.5em;
+            font-weight: 800;
+            font-size: 30px;
+            color: #fff;
+        }
+
+            .login-sec h2:after {
+                content: " ";
+                width: 100px;
+                height: 5px;
+                background: #f00;
+                display: block;
+                margin-top: 20px;
+                border-radius: 3px;
+                margin-left: auto;
+                margin-right: auto
+            }
+
+        .login-sec ul {
+            padding-left: 0em;
+            font-size: smaller;
+            margin-left: -1.5em;
+        }
+
+        .login-sec li {
+            font-size: smaller;
+        }
+
+    .btn-login {
+        background: #f00;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .banner-text {
+        width: 70%;
+        position: absolute;
+        bottom: 40px;
+        padding-left: 20px;
+    }
+
+        .banner-text h2 {
+            color: #fff;
+            font-weight: 600;
+        }
+
+            .banner-text h2:after {
+                content: " ";
+                width: 100px;
+                height: 5px;
+                background: #FFF;
+                display: block;
+                margin-top: 20px;
+                border-radius: 3px;
+            }
+
+        .banner-text p {
+            color: #fff;
+        }
+</style>

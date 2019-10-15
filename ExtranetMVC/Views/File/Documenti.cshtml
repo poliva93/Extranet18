@@ -1,0 +1,86 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>JsTree Demo</title>
+    <link href="~/Content/jstree.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-5">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            JsTree Demo
+                        </div>
+                        <div class="panel-body">
+                            <div id="html1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+@section Scripts
+        {
+    <script src="~/Scripts/Jstree/jstree.js"></script>
+    <script>
+
+                $('#html1').on('changed.jstree', function (e, data) {
+                var path = data.instance.get_path(data.node, '/');
+                console.log('Selected: ' + path);
+                //test
+                $.ajax({
+                    url: '@Url.Content("~/File/Download?id=")' + path,
+                }).done(function () {
+                    window.open('@Url.Content("~/File/Download?id=")' + path);
+                }
+                    //fine test
+                    //funzionante senza ajax
+                    //window.open('@Url.Content("~/Home/Download?id=")' + path);
+                    //}).jstree();
+                )
+        //    }).jstree();
+
+        //FUNZIONANTE
+            //$('#html1').on('changed.jstree', function (e, data) {
+            //          var i, j, r = [];
+            //          for (i = 0, j = data.selected.length; i < j; i++) {
+            //              r.push(data.instance.get_node(data.selected[i]).text);
+            //          }
+            //          alert('Selected: ' + r.join(', '));
+            //         // $('#event_result').html('Selected: ' + r.join(', '));
+            //}).jstree();
+
+            });
+
+    $(document).ready(function () {
+        $(function () {
+
+            $('#html1').jstree({
+                'core': {
+                    'data': {
+                        'url': '/File/p1Lista',
+                        'data': function (node) {
+                            return { 'id': node.id };
+                        }
+                    }
+                }
+            });
+        })
+    });
+
+
+    </script>
+}
+

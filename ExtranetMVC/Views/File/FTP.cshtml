@@ -1,0 +1,595 @@
+﻿
+@{
+    ViewBag.Title = "FTP";
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1">
+            @*border border-dark rounded-left rounded-top rounded-bottom">*@
+            @*<a id="aBack" href="#">Back to parent</a>*@
+            <i style="cursor:pointer; font-size:48px;height:48px; width:48px;" id="aBack" class="far fa-arrow-alt-circle-left"></i>
+        </div>
+        <div class="col-md-11 border border-dark rounded-right rounded-top rounded-bottom">
+            <h4 class="align-middle" id="parentFolder">#</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <button id="bDownload" type="button" style="margin-top:10px;margin-bottom:10px; margin-right:5px; cursor:pointer" class="btn-sm btn-success col-md-1 offset-9"><i class="fa fa-download" style="font:48px;" aria-pressed="true"></i></button>
+    <button id="bUploadDiv" type="button" style="margin-top:10px;margin-bottom:10px; margin-right:5px; cursor:pointer" class="btn-sm btn-primary col-md-1  " data-toggle="collapse" data-target="#mUpload" aria-expanded="false" aria-controls="mUpload"><i class="fa fa-upload" style="font:48px;" aria-hidden="true"></i></button>
+</div>
+<div id="mUpload" class="collapse">
+    <div class="card card-body ">
+
+        <h5 id="mHeader" class="col-md-12">Upload file in directory:</h5>
+
+        <form method="post" enctype="multipart/form-data" action="/api/file/upload" id="fID">
+            <div class="custom-file col-md-6">
+
+                <input id="uFile" class="custom-file-input " style="cursor:pointer" name="FileUpload" type="file" />
+                <label id="labelFile" class="custom-file-label" for="uFile">Choose file</label>
+
+
+            </div>
+            <span class="offset-1 "> <button type="button" id="bUpload" class="btn-primary   col-md-2" style="cursor:pointer" disabled>Upload it!</button></span>
+        </form>
+    </div>
+</div>
+<table class="table table-hover" id="idFTP">
+    <thead>
+        <tr>
+            <th>Selected</th>
+            <th>Name</th>
+            <th>Folder</th>
+            <th>Type</th>
+            <th>Size</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div class="modal fade" id="modalFile" tabindex="-1" role="dialog" aria-labelledby="modalFile" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " style="border: 1pt solid #fff" role="document">
+        <div class="modal-content bg-black" style="border-bottom:none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFileTitolo"></h5>
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="color:ghostwhite" aria-hidden="true">&times;</span>
+                </button>*@
+            </div>
+            <div class="modal-body" style="border:none;" id="modalFileBody">
+
+            </div>
+            <div class="modal-footer" style="border-top:none;">
+                @*<button id="closeButton" type="button" class="btn btn-secondary" >Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type=checkbox][disabled] + label {
+        color: #ccc;
+    }
+</style>
+
+@section Scripts
+        {
+    <script src="~/Scripts/FileSaver.js-master/src/FileSaver.js"></script>
+    <script>
+
+        $(document).ready(() => {
+            $.get('/api/file/load/')
+                .done(o => {
+                    var nome = 'idRow';
+                    var contatore = 1;
+                    o.forEach(s => {
+
+                        if (contatore == 1) {
+
+                        }
+                        else {
+
+                            var nRiga = '<tr id="' + nome + contatore + '">'// +
+                            //    '<td> <input class="check-input" type="checkbox" value=""></td>';
+
+                            if (s.Type == "Folder") {
+                                nRiga = nRiga + '<td> <input class="check-input disabled" disabled type="checkbox" value=""></td><td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>';
+                            }
+                            else {
+                                nRiga = nRiga + '<td> <input class="check-input" type="checkbox" value=""></td><td ><a class="aFileFTP" href="#">' + s.FileName + '</a></td>';
+                            }
+
+                            nRiga = nRiga + '<td>' + s.Folder + '</td>' +
+                                '<td>' + s.Type + '</td>' +
+                                '<td>' + s.Size + '</td>' +
+                                '</tr > ';
+
+                            $('#idFTP tbody').append(nRiga);
+                        }
+                        contatore = contatore + 1;
+                    });
+
+                    $('#bUploadDiv').prop('disabled', true);
+                    $('#bUpload').prop('disabled', true);
+                    $('#bDownload').prop('disabled', true);
+
+                });
+
+
+            $("#idFTP tbody").on("click", "a.aFolderFTP", ((e) => {
+                //alert("hai cliccato: " + $(e.currentTarget).closest("tr").text());
+                var tbl = $(e.currentTarget).closest("tr").map(function (i, v) {
+                    var $td = $('td', this);
+                    return {
+                        selected: $td.eq(0).val(),
+                        name: $td.eq(1).text(),
+                        folder: $td.eq(2).text(),
+                        type: $td.eq(3).text(),
+                        size: $td.eq(4).text()
+                    }
+                }).get();
+                // alert(tbl[0].name);
+                $('#idFTP tbody').empty();
+
+                var vUrl = '/api/file/load/';
+                if (tbl[0].folder != "#") {
+                    vUrl = vUrl + tbl[0].folder + '/';
+                }
+                vUrl = vUrl + tbl[0].name;
+                $.get(vUrl)
+                    .done(o => {
+                        var nome = 'idRow';
+                        var contatore = 1;
+                        o.forEach(s => {
+                            if (contatore == 1) {
+                                $('#aBack').show();
+                                $('#parentFolder').text(s.Folder);
+                                if (s.ReadWrite == 'W') {
+                                    $('#bUploadDiv').prop('disabled', false);
+                                    //$('#bUpload').prop('disabled', false);
+                                    $('#bDownload').prop('disabled', true);
+                                }
+                                else {
+                                    $('#bUploadDiv').prop('disabled', true);
+                                    $('#bUpload').prop('disabled', true);
+                                    $('#bDownload').prop('disabled', true);
+                                }
+
+                            }
+                            else {
+                                //var nRiga = '<tr id="' + nome + contatore + '">' +
+                                //    '<td> <input class="check-input" type="checkbox" value=""></td>' +
+                                //    '<td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>' +
+                                //    '<td>' + s.Folder + '</td>' +
+                                //    '<td>' + s.Type + '</td>' +
+                                //    '<td>' + s.Size + '</td>' +
+                                //    '</tr > '
+                                var nRiga = '<tr id="' + nome + contatore + '">' //+
+                                //'<td> <input class="check-input" type="checkbox" value=""></td>';
+
+                                if (s.Type == "Folder") {
+                                    nRiga = nRiga + '<td> <input class="check-input disabled" disabled type="checkbox" value=""></td><td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>';
+                                }
+                                else {
+                                    nRiga = nRiga + '<td> <input class="check-input" type="checkbox" value=""></td><td ><a class="aFileFTP" href="#">' + s.FileName + '</a></td>';
+                                }
+
+                                nRiga = nRiga + '<td>' + s.Folder + '</td>' +
+                                    '<td>' + s.Type + '</td>' +
+                                    '<td>' + s.Size + '</td>' +
+                                    '</tr > ';
+                                $('#idFTP tbody').append(nRiga);
+                            }
+                            contatore = contatore + 1;
+                        });
+
+
+                    });
+
+                $('#uFile').text("");
+                $('#uFile').val("");
+                $('.custom-file-label').text("Choose File");
+
+            }
+            ));
+
+
+            ////versione originale download.....semi funzionante se non x file grossi
+            //$("#idFTP tbody").on("click", "a.aFileFTP", ((e) => {
+            //    //alert("hai cliccato: " + $(e.currentTarget).closest("tr").text());
+            //    var tbl = $(e.currentTarget).closest("tr").map(function (i, v) {
+            //        var $td = $('td', this);
+            //        return {
+            //            selected: $td.eq(0).val(),
+            //            name: $td.eq(1).text(),
+            //            folder: $td.eq(2).text(),
+            //            type: $td.eq(3).text(),
+            //            size: $td.eq(4).text()
+            //        }
+            //    }).get();
+            //    // alert(tbl[0].name);
+            //    //$('#idFTP tbody').empty();
+
+            //    var vUrl = '/api/file/download/';
+            //    vUrl = vUrl + tbl[0].type.substring(1) + "/";
+            //    if (tbl[0].folder != "#") {
+            //        vUrl = vUrl + tbl[0].folder + '/';
+            //    }
+            //    var fName = tbl[0].name.split('.');
+
+            //    var vTemp = fName.pop();
+            //    fName = fName.join('.');
+            //    vUrl = vUrl + fName +'/';
+            //    window.location = vUrl;
+            //    //$.get(vUrl)
+            //    //    .done(o => {
+
+
+            //    //    });
+
+
+
+            //}
+            //));
+
+
+            $('#bDownload').on("click", ((e) => {
+                var lista = [];
+                $('#idFTP input:checked').each(function () {
+                    var a = $(this).closest("tr").map(function (i, v) {
+                        var $td = $('td', this);
+                        return $td.eq(2).text() + "/" + $td.eq(1).text();
+                    }).get();
+                    lista.push(a[0]);
+                });
+
+                var oLista = {};
+                oLista.Urls = lista;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/api/file/DownloadM/", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                //var disposition = request.getResponseHeader('content-disposition');
+                //xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.responseType = 'blob';
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var blob = this.response;
+                        var disposition = xhr.getResponseHeader('content-disposition');
+                        var matches = /"([^"]*)"/.exec(disposition);
+                        var filename = (matches != null && matches[1] ? matches[1] : 'files.zip');
+                        var blob = new Blob([xhr.response], { type: 'application/zip' });
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = filename;
+
+                        document.body.appendChild(link);
+
+                        link.click();
+
+                        document.body.removeChild(link);
+                    }
+
+                    // some error handling should be done here...
+                };
+
+
+                ////var contentDispo = this.getResponseHeader('application/zip');
+                //// https://stackoverflow.com/a/23054920/
+                ////var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1];
+                //var fileName = "testzip.zip";
+                //saveBlob(blob, fileName);
+                //}
+                xhr.send(JSON.stringify(oLista));
+
+
+
+                ////setup ajax
+                //$.ajaxSetup({
+                //    beforeSend: function (jqXHR, settings) {
+                //        if (settings.dataType === 'binary') {
+                //            settings.xhr().responseType = 'arraybuffer';
+                //            settings.processData = false;
+                //        }
+                //    }
+                //})
+                //$.ajax({
+                //    method: 'POST',
+                //    url: '/api/file/DownloadM/',
+                //    data: JSON.stringify(oLista) ,
+                //    contentType: "application/json; charset=utf-8",
+                //    dataType: "binary",
+                //    processData: false,
+                //    success: function (response) {
+                //        return response;// , "DO_Files.zip");
+                //    },
+                //    error: function (response) {
+                //        console.log(response);
+                //    }
+                //    });
+            }));
+
+            function saveBlob(blob, fileName) {
+                var a = document.createElement('a');
+                a.href = window.URL.createObjectURL(blob);
+                a.download = fileName;
+                a.dispatchEvent(new MouseEvent('click'));
+            }
+
+            //per gestire il tornare indietro  da una cartella all'altra
+            $("#aBack").on("click", ((e) => {
+
+                $('#idFTP tbody').empty();
+                var sFolder = $('#parentFolder').text().split("\\");
+                sFolder.pop();
+                var vPath = "";
+                sFolder.forEach(s => {
+                    vPath = vPath + "/" + s;
+                });
+
+                var vUrl = '/api/file/load/' + vPath;
+
+                $.get(vUrl)
+                    .done(o => {
+                        var nome = 'idRow';
+                        var contatore = 1;
+                        o.forEach(s => {
+                            if (contatore == 1) {
+                                $('#parentFolder').text(s.Folder);
+                                if (s.ReadWrite == 'W') {
+                                    $('#bUploadDiv').prop('disabled', false);
+                                    //$('#bUpload').prop('disabled', false);
+                                    $('#bDownload').prop('disabled', true);
+                                }
+                                else {
+                                    $('#bUploadDiv').prop('disabled', true);
+                                    $('#bUpload').prop('disabled', true);
+                                    $('#bDownload').prop('disabled', true);
+                                }
+                            }
+                            else {
+                                //var nRiga = '<tr id="' + nome + contatore + '">' +
+                                //    '<td> <input class="check-input" type="checkbox" value=""></td>' +
+                                //    '<td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>' +
+                                //    '<td>' + s.Folder + '</td>' +
+                                //    '<td>' + s.Type + '</td>' +
+                                //    '<td>' + s.Size + '</td>' +
+                                //    '</tr > '
+                                var nRiga = '<tr id="' + nome + contatore + '">' //+
+                                // '<td> <input class="check-input" type="checkbox" value=""></td>';
+
+                                if (s.Type == "Folder") {
+                                    nRiga = nRiga + '<td> <input class="check-input disabled" disabled type="checkbox" value=""></td><td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>';
+                                }
+                                else {
+                                    nRiga = nRiga + '<td> <input class="check-input" type="checkbox" value=""></td><td ><a class="aFileFTP" href="#">' + s.FileName + '</a></td>';
+                                }
+
+                                nRiga = nRiga + '<td>' + s.Folder + '</td>' +
+                                    '<td>' + s.Type + '</td>' +
+                                    '<td>' + s.Size + '</td>' +
+                                    '</tr > ';
+
+                                $('#idFTP tbody').append(nRiga);
+                            }
+                            contatore = contatore + 1;
+                        });
+
+                        $('#uFile').text("");
+                        $('#uFile').val("");
+                        $('.custom-file-label').text("Choose File");
+                    });
+
+
+
+            }
+            ));
+            $('#uFile').on('change', function () {
+                //get the file name
+                var fileName = $(this).val();
+                $('#bUpload').prop('disabled', false);
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            });
+            $('#idFTP tbody').on('change', 'input.check-input', (() => {
+                var checkBoxes = $('tbody .check-input');
+                $('#bDownload').prop('disabled', checkBoxes.filter(':checked').length < 1);
+            }));
+            /* $('#bUpload').click(() => {
+
+                 //var formData = new FormData();
+                 //var totalFiles = document.getElementById("uFile").files.length;
+
+                 //for (var i = 0; i < totalFiles; i++) {
+                 //    var file = document.getElementById("uFile").files[i];
+
+                     //formData.append("uFile", $('#uFile'));
+                 //}
+                 var file = $('#uFile')[0].files[0]
+                 var fd = new FormData();
+                 fd.append('theFile', file);
+                 var pathToSave = $('#parentFolder').text();
+                 fd.append('PathToSave', pathToSave);
+
+                 $.ajax({
+                     type: 'post',
+                     url: '/api/file/Upload',
+                     data: fd,
+                     //dataType: 'json',
+                     contentType: false,
+                     processData: false,
+                     success: function (response) {
+                         $('#idFTP tbody').empty();
+
+                         var vUrl = '/api/file/load/'+$('#parentFolder').text() + '/';
+                         $.get(vUrl)
+                             .done(o => {
+                                 var nome = 'idRow';
+                                 var contatore = 1;
+                                 o.forEach(s => {
+                                     if (contatore == 1) {
+                                         $('#aBack').show();
+                                         $('#parentFolder').text($('#parentFolder').text());
+
+
+                                     }
+                                     else {
+                                         //var nRiga = '<tr id="' + nome + contatore + '">' +
+                                         //    '<td> <input class="check-input" type="checkbox" value=""></td>' +
+                                         //    '<td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>' +
+                                         //    '<td>' + s.Folder + '</td>' +
+                                         //    '<td>' + s.Type + '</td>' +
+                                         //    '<td>' + s.Size + '</td>' +
+                                         //    '</tr > '
+                                         var nRiga = '<tr id="' + nome + contatore + '">' +
+                                             '<td> <input class="check-input" type="checkbox" value=""></td>';
+
+                                         if (s.Type == "Folder") {
+                                             nRiga = nRiga + '<td ><a class="aFolderFTP" href="#">' + s.FileName + '</a></td>';
+                                         }
+                                         else {
+                                             nRiga = nRiga + '<td ><a class="aFileFTP" href="#">' + s.FileName + '</a></td>';
+                                         }
+
+                                         nRiga = nRiga + '<td>' + s.Folder + '</td>' +
+                                             '<td>' + s.Type + '</td>' +
+                                             '<td>' + s.Size + '</td>' +
+                                             '</tr > ';
+                                         $('#idFTP tbody').append(nRiga);
+                                     }
+                                     contatore = contatore + 1;
+                                 });
+                                 $('#uFile').text("");
+                                 $('#uFile').val("");
+                                 $('.custom-file-label').text("Choose File");
+                                 $('.collapse').collapse();
+                                 alert('File correctly uploaded');
+                             });
+
+
+                     },
+                     error: function (errore) {
+                         alert("Something went wrong! File has not been uploaded.");
+
+                     }
+                 });
+
+             });*/
+            $('#bUpload').click(() => {
+                var uploadComplete = function () {
+                    var formData = new FormData();
+
+                    formData.append('fileName', file.name);
+                    formData.append('completed', true);
+                    var pathToSave = $('#parentFolder').text();
+                    formData.append('PathToSave', pathToSave);
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open("POST", "UploadComplete", true); //combine the chunks together
+                    xhr2.send(formData);
+                }
+
+                function upload(file) {
+                    var blob = file;
+                    var BYTES_PER_CHUNK = 1024000;//77570; // sample chunk sizes.
+                    var SIZE = blob.size;
+
+                    //upload content
+                    var start = 0;
+                    var cont = 0;
+                    var end = BYTES_PER_CHUNK;
+                    var completed = 0;
+                    var progresso = 0;
+                    var count = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
+                    var pathToSave = encodeURIComponent($('#parentFolder').text());
+                    var FileToSave = "";
+                    FileToSave = encodeURIComponent($('#labelFile').text().substr(12)); //substr 12 per togliere fakepath
+                    while (start < SIZE) {
+                        var chunk = blob.slice(start, end);
+                        var xhr = new XMLHttpRequest();
+                        xhr.onload = function () {
+                            
+                            completed = completed + 1;
+                            progresso = (completed * 100) / count;
+                            progresso = progresso.toFixed(2);
+                            $("#modalFileTitolo").text("Upload started");
+                            $("#modalFileBody").text("Upload progress: %" + progresso );
+
+                            $("#modalFile").modal('show');
+                            if (completed === count) {
+                                uploadComplete();
+                                window.location.replace('FTP');
+                            }
+                        };
+                        xhr.open("POST", "MultiUpload", true);
+                        xhr.setRequestHeader("completed", cont);
+
+                        console.log("la folder: " + pathToSave);
+                        xhr.setRequestHeader('PathToSave', pathToSave);
+                        //var FileToSave = "";
+                        //FileToSave = blob.name.toString();
+                        //console.log("il filename: " + FileToSave);
+                        xhr.setRequestHeader('x-filename', FileToSave);
+                        cont = cont + 1;
+                        xhr.send(chunk);
+
+                        start = end;
+                        end = start + BYTES_PER_CHUNK;
+                        //da rimuovere: serve per lanciar euna sola richiesta
+                        //start = SIZE;
+                    }
+                }
+                var file = $('#uFile')[0].files[0];
+                upload(file);
+            });
+
+            $("#idFTP tbody").on("click", "a.aFileFTP", ((e) => {
+                
+                //alert("hai cliccato: " + $(e.currentTarget).closest("tr").text());
+                var tbl = $(e.currentTarget).closest("tr").map(function (i, v) {
+                    var $td = $('td', this);
+                    return {
+                        selected: $td.eq(0).val(),
+                        name: $td.eq(1).text(),
+                        folder: $td.eq(2).text(),
+                        type: $td.eq(3).text(),
+                        size: $td.eq(4).text()
+                    }
+                }).get();
+                var FileToDownload = '';
+                if (tbl[0].folder != "#") {
+                    FileToDownload = tbl[0].folder + '/';
+                }
+                FileToDownload = FileToDownload + tbl[0].name;
+                var vUrl = '/file/download/';
+                //vUrl = vUrl + FileToDownload.substr(0,FileToDownload.length-4);
+                vUrl = vUrl +"?file="+encodeURIComponent(FileToDownload);
+                window.location = vUrl;
+                //var xhr = new XMLHttpRequest();
+                //xhr.responseType = 'blob';
+                //xhr.open("POST", "DownloadTest", true);
+                //var FileToDownload = '';
+                //if (tbl[0].folder != "#") {
+                //    FileToDownload = tbl[0].folder + '/';
+                //}
+                //FileToDownload = FileToDownload + tbl[0].name;
+                //xhr.setRequestHeader('x-filename', encodeURIComponent(FileToDownload));
+
+                ////alert(FileToDownload);
+                //xhr.onload = function () {
+                //    var blob = this.response;
+                //    var contentDispo = this.getResponseHeader('Content-Disposition');
+                //    // https://stackoverflow.com/a/23054920/
+                //    var fileName = decodeURI(contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1]);
+                //    saveAs(blob, fileName);
+                //}
+                //xhr.send();
+                
+            }
+            ));
+        });
+    </script>
+
+
+}

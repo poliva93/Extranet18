@@ -1,0 +1,103 @@
+﻿@media print {
+    @page {
+        size: A4 landscape;
+        /*margin: 0.5cm;*/
+        
+    }
+    /*@page{
+
+    size: landscape
+    
+}
+    /*#righePiano {
+        page-break-inside:avoid !important;
+    }*/
+    /*html, body {
+        height: 100%;
+    }*/
+ 
+
+
+
+    #btnStampa {
+        display:block;
+    }
+
+    .printOnly {
+        display:block;
+    }
+
+    .noStampa {
+        
+        display: none;
+    }
+
+    .pFoglio {
+        width:28cm;
+    }
+    /*.dettaglioDettagli {
+        background-color: #e6e5e5 !important;
+    }*/
+
+    /*#dettaglioPiano {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 20px;
+        font-size: 8px;
+        line-height: 14px;
+    }*/
+
+    /*.intestazioneGruppo {
+        background-color: #000000;
+    }*/
+    .pArticolo {
+        width:2cm;
+    }
+    .pVersione {
+        width:1cm;
+    }
+    #righePiano thead tr th.intestazioneGruppo {
+        -webkit-print-color-adjust: exact;
+        background-color: #fdffdb !important;
+        /*font-weight: normal;*/
+    }
+    #righePiano tbody tr.rigaGruppo td {
+        -webkit-print-color-adjust: exact;
+         background-color: #fdffdb !important; 
+        /*font-weight: normal;*/
+    }
+    .intestazioneGruppo {
+        -webkit-print-color-adjust: exact;
+        background-color: #fdffdb !important;
+    }
+    .dettaglioDettagli {
+        -webkit-print-color-adjust: exact;
+        background-color: #fbfbfb !important;
+    }
+    /*#righePiano thead tr th:nth-child(1) {
+        width: 2cm;
+    }
+
+    #righePiano thead tr th:nth-child(2) {
+        width: 1cm;
+    }*/
+    #righePiano .titoloDettagli {
+        -webkit-print-color-adjust: exact;
+        background-color: #f5f5f5 !important;
+        text-align: center;
+    }
+    #righePiano .dettaglioDettagli {
+        background-color: #fbfbfb !important;
+    }
+    #righePiano tbody tr td:nth-child(1),
+    #righePiano tbody tr td:nth-child(2),
+    #righePiano tbody tr td:nth-child(3),
+    #righePiano tbody tr td:nth-child(4),
+    #righePiano tbody tr td:nth-child(5) {
+        border-color: transparent !important;
+    }
+}
+

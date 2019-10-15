@@ -1,0 +1,99 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "PianoFornitore";
+    Layout = "~/Views/Shared/_LayoutLargo.cshtml";
+}
+<style>
+    body{
+        color:#000
+    }
+</style>
+
+<div id="pianoFornitore">
+
+    <div class="noStampa ">
+        <div id="testataPiano" >
+            <div class="">
+                <h3 id="nomeFornitore"></h3>
+                <p id="btnStampa" class="btn btn-primary">Print</p>
+            </div>
+
+            @if (ViewBag.lClienti != null)
+            {
+                <div class="">
+                    <div class="form-group">
+                        <label for="selFornitore">Fornitore</label>
+                        @*<select class="form-control" id="selFornitore"></select>*@
+                        @*@Html.DropDownList("selFornitore", (IEnumerable<SelectListItem>)ViewBag.lClienti, null, new { @class = "form-control" })*@
+                        @Html.DropDownList("selFornitore",new SelectList( ViewBag.lClienti,"Value","Text"), null, new { @class = "form-control" })
+                    </div>
+                </div>
+            }
+
+            <div>
+                <div class="form-group">
+                    <label for="selO<rdine">Order ID</label>
+                    <select class="form-control" id="selOrdine"></select>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="selTestata">Index</label>
+                    <select class="form-control" id="selTestata"></select>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label>Display date</label>
+                    <div><label id="lData"></label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dettaglioPiano" @*pFoglio"*@>
+        <p id="pRiepilogo" class="font-weight-bold printOnly"></p>
+        <table id="righePiano" class="display table table-sm table-hover">
+
+            <thead>
+                <tr>
+                    <th class="intestazioneGruppo pArticolo" rowspan="2">@*Articolo/*@Part No</th>
+                    <th class="intestazioneGruppo pVersione" rowspan="2">@*Versione/*@Vers</th>
+                    <th class="intestazioneGruppo" rowspan="2">@*Descrizione /*@ Description</th>
+                    <th class="intestazioneGruppo" rowspan="2">UM</th>
+                    <th class="intestazioneGruppo titoloCentrato" colspan="3">@*Ultima Ricezione /*@ Last Rec.</th>
+                    <th class="intestazioneGruppo" rowspan="2"> @*Tot Ricevuto /*@ Received</th>
+                </tr>
+                <tr>
+                    <th class="intestazioneGruppo">DDT</th>
+                    <th class="intestazioneGruppo">@*DDT Data / *@Date</th>
+                    <th class="intestazioneGruppo">@*Quantità /*@ Quantity</th>
+                </tr>
+                <tr>
+                    <th colspan="5" style="border-color:transparent;border-width: 0px;"></th>
+                    <th colspan="3" class="titoloDettagli titoloCentrato">Orders Plan</th>
+                </tr>
+                <tr>
+                    <th colspan="5" style="border-color:transparent;border-width: 0px;"></th>
+                    <th class="dettaglioDettagli">Tiplogy</th>
+                    <th class="dettaglioDettagli">Estimated date</th>
+                    <th class="dettaglioDettagli">Quantity</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    @*@Scripts.Render("~/bundles/datatables")*@
+    @*<script src="~/Scripts/html2pdf.bundle.min.js"></script>
+        <script src="~/Scripts/jszip.min.js"></script>*@
+    <script src="~/Scripts/PianiFornitore/pianifornitore.js"></script>
+
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>*@
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-html5-1.5.2/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+}

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Extranet_EF.EDI_TESTATA>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FORNITORE.CLFCOD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DATAPIANO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLFDES)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLFIND)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAGAZZINO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CONTATTOLOG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CONTATTOFOR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DATAVIS)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FORNITORE.CLFCOD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DATAPIANO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CLFDES)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CLFIND)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAGAZZINO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CONTATTOLOG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CONTATTOFOR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DATAVIS)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

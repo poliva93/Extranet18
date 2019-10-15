@@ -1,0 +1,112 @@
+﻿
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: #cccccc;
+    /*overflow: scroll;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.body-background {
+    background-color: #000000;
+    background-image: url(../Content/bgn.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    /*background-attachment: scroll;*/
+}
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+.bg-black {
+    background-color: #000000
+}
+
+.font-White {
+    color: aliceblue
+}
+
+.nav-white {
+    color: aliceblue;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+/*sezione del piano dei fornitori */
+
+.printOnly{
+    display:none;
+}
+#testataPiano {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+/*#pianoFornitore
+{
+    width:28cm;
+}*/
+#righePiano {
+    border-collapse: collapse;
+}
+.container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#righePiano tbody td {
+    font-weight: bold;
+}
+.intestazioneGruppo {
+    background-color: #fdffdb;
+}
+#righePiano tbody tr td:nth-child(1),
+#righePiano tbody tr td:nth-child(2),
+#righePiano tbody tr td:nth-child(3),
+#righePiano tbody tr td:nth-child(4),
+#righePiano tbody tr td:nth-child(5) {
+    border-color: transparent;
+}
+#righePiano tbody tr.rigaGruppo td {
+    background-color: #fdffdb;
+    font-weight: normal;
+}
+.rigaNascosta {
+    display: none;
+}
+.printOnly{
+    display: none;
+}
+/*.pFoglio {
+    background-color:#000000;
+}*/
+.titoloDettagli {
+    background-color: #f5f5f5;
+    text-align: center;
+}
+.dettaglioDettagli {
+    background-color: #fbfbfb;
+}
+.titoloCentrato {
+    text-align: center;
+}
+.rigaStampa {
+    page-break-before: always;
+}
+
+.spedizioneChiusa {
+    background-color: lightcoral;
+}
+.spedizioneAperta {
+    background-color: #72dc09;
+}
+
+/* fine della sezione */

@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Contact Us";
+}
+<hr />
+<div>
+    <address>
+        Via Kennedy 7<br />
+        Cabiate, CO 22060<br />
+        <abbr title="Phone">P:</abbr>
+        0317692111
+    </address>
+    <hr />
+    <address>
+        <strong>Support:</strong>   <a href="mailto:edp@dellorto.it">EDP@dellorto.it</a><br />
+        <strong>Planning & Warehouse:</strong> <a href="mailto:marco.gerosa@dellorto.it">marco.gerosa@dellorto.it</a>
+    </address>
+</div>
+
+<div @(User.IsInRole("Interni") ? "" : "hidden")>
+    <strong>Segnala una violazione</strong>
+   <a class="btn btn-danger" href="~/Home/Report">Segnala</a>
+</div>                                                                     

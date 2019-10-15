@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Segnala delle violazioni";
+}
+
+<strong>Non è richiesta l'identità/email del segnalatore </strong>
+
+<div>
+    @*<i>Per maggiori informazioni <a href="http://www.dellorto.it/it/company/normativa/">Cliccare QUI</a> </i>*@
+<i><a href="~/Content/PDFs/Principi del Modello 231.pdf" target="_blank">Principi del Modello 231</a></i>
+<br />
+<i><a href="~/Content/PDFs/Procedura whistleblowing.pdf" target="_blank">Procedura whistleblowing</a></i>
+</div>
+@*<hr />*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <form style="padding-top:20px">
+        <div class="form-group">
+            <label for="txtEmail">E-mail Address:</label>
+            <input type="email" name="sEmail" class="form-control" id="txtEmail">
+        </div>
+
+        <div class="form-group ">
+            <label for="txtOggetto">Oggetto:</label>
+            <input type="text" required name="sOggetto" class="form-control col-sm-8" id="txtOggetto">
+        </div>
+        <div class="form-group">
+            <label for="txtDescrizione">Descrizione:</label>
+            <textarea rows="5" required name="sDescrizione" class="form-control col-sm-8" id="txtDescrizione"></textarea>
+        </div>
+        <button type="submit" class="btn-primary col-sm-3 offset-5">Invia</button>
+    </form>
+
+
+}

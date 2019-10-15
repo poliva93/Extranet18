@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DOS</title>
+    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/datatables")*@
+    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/datatables")*@
+    @*@Styles.Render("~/Content/datatables")*@
+
+    @RenderSection("styles", required: false)
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
+    
+</head>
+<body style="    background-color: #000000;
+    background-image: url(../Content/bg_pattern.png);
+    background-position: 0pt 0pt;
+    background-repeat: repeat;
+    min-height: 100%;
+    position: relative;
+
+    overflow: hidden;">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-family: 'Oswald', sans-serif;
+        }
+        nav ul li:hover, a.dropdown-item:hover {
+            background-color: red;
+            color: white !important;
+        }
+        a.dropdown-item {
+            color: #cccccc;
+        }
+    </style>
+    @*style="background-color: #e3e3e3; padding-top:0px; background-image: url(../Content/bibi.jpg);
+        background-repeat: no-repeat;
+
+        background-position: top center;
+
+        background-size:100% 100vh;
+        background-attachment: scroll;">*@
+    @*class="body-background">*@
+    <nav class="navbar navbar-expand-sm bg-black col-md-8 offset-2 navbar-dark sticky-top" @*border border-white*@ style=" padding-left:5px; padding-bottom:0px; margin-bottom:5px; padding-top:0px; ">
+        @if (Request.IsAuthenticated)
+        {
+            <a class="navbar-brand" href="~/Account/Index"><img alt="DellortoHome" src="~/Content/dellorto_logo.png" style="width: 230px; height: 50px; " /> </a> @*src="~/Content/DoServiceW.png"*@
+        }
+        else
+        {
+            <a class="navbar-brand" href="~/Account/Login"><img alt="DellortoHome" src="~/Content/dellorto_logo.png" style="width:230px; height: 55px;" /> </a>
+        }
+        @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>*@
+        @*<div class="collapse navbar-collapse" id="navbarCollapse">*@
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="~/Account/Index">Home <span class="sr-only">(current)</span></a>
+            </li>
+
+
+            <li class="nav-item ">
+                <a class="nav-link @(User.IsInRole("Fornitore_EDI") || User.IsInRole("Admin") ||  User.IsInRole("Gruppo_EDP") || User.IsInRole("Gruppo_Logistica") ? "active" : "disabled")" href=@(User.IsInRole("Fornitore_EDI") || User.IsInRole("Admin") ||  User.IsInRole("Gruppo_EDP") || User.IsInRole("Gruppo_Logistica") ? "/PianoFornitore/Index" : "#")> Supplier Plans</a>
+            </li>
+            @*<li class="nav-item active">
+                    <a class="nav-link @(User.IsInRole("Gruppo_EDP") ? "" : "disabled")" href="#">EDP</a>
+                </li>*@
+
+
+
+            <li class="nav-item dropdown ">
+                <a class="dropdown-toggle nav-link nav-item  @(User.IsInRole("Admin") ||  User.IsInRole("Deufol") || User.IsInRole("Gruppo_EDP") ? "active" : "disabled")" href="#" id="navbardrop" data-toggle="dropdown">
+                    DESADV
+                </a>
+                <ul class="dropdown-menu " style="background-color:black;">
+
+                    <li><a class="dropdown-item  @(User.IsInRole("Admin") ||  User.IsInRole("Deufol") ? "" : "disabled")" href="~/DESADV/Create">Crea DESADV</a></li>
+                    <li><a class="dropdown-item  @(User.IsInRole("Admin") ||  User.IsInRole("Deufol") ? "" : "disabled")" href="~/DESADV/InvioEDI">Invia DESADV</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link active" href="~/Home/Contact">Contact Us</a>
+            </li>
+
+        </ul>
+
+        <div class="navbar-collapse collapse  order-3  ">
+
+            <p class="nav-link navbar-nav ml-auto nav-item" style="color :lavenderblush">@User.Identity.Name</p>
+            @if (Request.IsAuthenticated)
+            {
+                <a class="btn btn-outline-success my-2 my-sm-0" href="~/Account/Logout">Logout</a>
+            }
+            else
+            {
+                <a class="btn btn-outline-success my-2 my-sm-0" href="~/Account/Login">Login</a>
+            }
+        </div>
+
+
+
+        @*</div>*@
+    </nav>
+    <!-- hidden fields -->
+    <input type="hidden" id="currentUsername" value="@User.Identity.Name" />
+
+    <div id="idbody" class=" body-content container h-75 col-md-8" style="background-color:rgba(31, 31, 31, 0.89)/*#292929*/;" @*border: 1px solid #949494;*@>
+        @*margin-top:35px;*@
+        <div id="topsh" @*class="col-md-8 offset-2 loginW"*@ style="background-image:url(../Content/shadow_up.png); border-top-left-radius:10px; border-top-right-radius:10px;    background-image:url(../Content/shadow_up.png); background-position: center bottom;
+        background-repeat: repeat-x;
+        rgba(31, 31, 31, 0.89);
+        font-size: 1em;
+        margin-top:@(ViewBag.Title!="Account Login" ? "-1em;" : "0em;");
+        line-height: 1.5em;
+        padding: 0em 0em;
+        color: rgb(204, 204, 204);
+        margin-left:@(ViewBag.Title!="Account Login" ? "-15px;" : "0px;")
+        margin-right:@(ViewBag.Title!="Account Login" ? "-15px;" : "0px;")
+        ">
+            <p style="padding:0.5em 0em;padding-left:1em;
+  vertical-align: middle;">@ViewBag.Title</p>
+</div>
+
+@RenderBody()
+
+<div style="height:2em;" class="row"></div>
+<div style="    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.92em;
+    height: 2em;
+    line-height: 2.3em;
+    text-transform: uppercase;
+    text-align: right;
+    background-image: url(../Content/shadow_down.png);
+    background-position: 0 -13px;
+    background-repeat: repeat-x;
+    width: 100%;
+    padding: 0;">
+    <p style="padding-right:0.5em;">v1.8</p>
+</div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@*@Scripts.Render("~/bundles/jQueryBinary")*@
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+
+
+</body>
+
+</html>
+<script>
+    /* Sample function that returns boolean in case the browser is Internet Explorer*/
+    function isIE() {
+        ua = navigator.userAgent;
+        /* MSIE used to detect old browsers and Trident used to newer ones*/
+        var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+
+        return is_ie;
+    }
+    $(document).ready(function () {
+        if (isIE()) {
+            if (window.location.pathname != '/Account/InternetExplorer') {
+                window.location.replace('../Account/InternetExplorer');
+            }
+        }
+
+
+    });
+</script>

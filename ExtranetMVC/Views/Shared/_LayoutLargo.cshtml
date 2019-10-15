@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DOS</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/pianoFornitore")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-html5-1.5.2/datatables.min.css" />
+</head>
+<body>
+    <!-- hidden fields -->
+    <input type="hidden" id="currentUsername" value="@User.Identity.Name" />
+    <div class="container-fluid body-content ">
+        <div class="noStampa">
+        @if (Request.IsAuthenticated)
+        {
+            <a class="" href="~/Account/Index">Back to home </a>
+        }
+        else
+        {
+            <a class="" href="~/Account/Login">Back to Home </a>
+        }
+         </div>
+        @RenderBody()
+        <hr />
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

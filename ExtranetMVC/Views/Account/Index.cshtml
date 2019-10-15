@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+}
+
+@*<h2>In costruzione</h2>
+
+
+    <img class="d-block img-fluid" src="~/Content/WIP.png" alt="WIP">*@
+@section scripts{
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <!------ Include the above in your HEAD tag ---------->
+    @*<script>
+            $(document).ready(function () {
+                $('#myCarousel').carousel({
+                    interval: 0,
+                })
+            });
+        </script>*@
+
+}
+<link href="~/Content/AccountIndex.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/animate.css" rel="stylesheet">
+<div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="mask flex-center" @*style="margin-top:50px;"*@>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-7 col-12 order-md-1 order-2">
+                            <h4>
+                                Comunicazione <br>
+                            </h4>
+                            <hr />
+                            <h5>
+                                Calendario chiusure
+                            </h5>
+                            <p>
+                                Con la presente vi informiamo che il nostro stabilimento ed il nostro magazzino Deufol resteranno chiusi: <br />
+                                <i>
+                                    per festività:						 il g. 01 novembre 2019 <br />
+                                    per vacanze natalizie:				dal g. 23 dicembre 2019 – al 06 gennaio 2020 <br />
+                                    ultimo giorno utile per ricevimento merci:	il 20 dicembre h. 12,00 <br />
+                                    primo giorno utile per ricevimento merci:	il 07 gennaio h. 08,00 <br />
+                                </i>
+                                @*Con la presente vi informiamo che il ns.stabilimento ed il magazzino DEUFOL resteranno chiusi per le vacanze estive <strong>dal g. 05 al g.26 agosto compresi.</strong> <br />
+
+                                    <i>
+                                        Ultimo giorno valido per il ricevimento merci: g. 01/08/2019 h. 16,00<br />
+                                        Primo giorno valido per il ricevimento merci: g. 26/08/2019 h. 08,00
+                                    </i>*@
+                            </p>
+
+                        </div>
+                        <div class="col-md-5 col-12 order-md-2 order-1"><img style="height:22em;" src="~/Content/italia.png" class="mx-auto" alt="slide"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="mask flex-center" @*style="margin-top:50px;"*@>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-7 col-12 order-md-1 order-2">
+                            <h4>
+                                Statement
+                            </h4>
+                            <hr />
+                            <h5>
+                                Closing Days
+                            </h5>
+                            <p>
+                                @*We herewith inform you that our company and our logistic partner DEUFOL will be closed for summer shutdown <strong> from 05th to 26th august included.</strong> <br />
+                                    <i>
+                                        Last day for goods receipt: 01/08/19 at h.16,00 <br />
+                                        First day for goods receipt: 26/08/2019 at  h. 08,00
+                                    </i>*@
+                                We hereby inform you that our factory and our warehouse at  Deufol will be closed: <br />
+                                <i>
+                                    for bank holiday: 					01st  November 2019 <br />
+                                    for Christmas holidays: 				from 23rd  December 2019  to 6rd January 2020 <br />
+                                    last day for goods receipt: 			20th December  at h. 12,00			<br />
+                                    First first day for goods receipt: 			07 January h. 08,00
+                                </i>
+
+                            </p>
+
+                        </div>
+                        <div class="col-md-5 col-12 order-md-2 order-1"><img style="height:22em;" src="~/Content/uk.png" class="mx-auto" alt="slide"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="deu" class="carousel-item">
+            <div class="mask flex-center" @*style="margin-top:50px;"*@>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-7 col-12 order-md-1 order-2">
+                            <h4>
+                                Kommunikation
+                            </h4>
+                            <hr />
+                            <h5>
+                                Werkschliessenplan
+                            </h5>
+                            <p>
+                                @*Hiermit benachrichtigen wir Ihnen, daß unser Werk  und unser Lager DEUFOL wegen Betriebsurlaub <strong> vom 5.  zum einschließlich 26. August geschlossen bleiben werden </strong> <br />
+                                    <i>
+                                        Letzter Tag für Wareneingang: am 1. August 2019 h.16,00 <br />
+                                        Erster Tag fuer Wareneingang gueltig : am 26. August 2019 h.08,00
+                                    </i>*@
+                                Wir informieren Sie hiermit, dass unser Werk und unser Deufol-Warenhaus geschlossen sind:<br />
+                                <i>
+                                    Wegen Feiertag 					am  01. November 2019 <br />
+                                    wegen Weihnachtsfeiertage: 			vom 23. Dezember 2019 bis 6. Januar 2020 <br />
+                                    letzter Tag für Wareneingang: 			am 20. Dezember h. 12,00 <br />
+                                    erster Tag für Wareneingang: 			am 07. Januar h. 08,00 <br />
+                                </i>
+                            </p>
+                        </div>
+                        <div class="col-md-5 col-12 order-md-2 order-1"><img style="height:22em;" src="~/Content/germania.png" class="mx-auto" alt="slide"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @*<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="deu"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>*@
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @*<div class="col-md-3 offset-1">*@
+        @*<div class="">*@
+        @*<ul class="list-inline offset-5  ">*@
+        <ul class="offset-md-5 social">
+            <li data-target="#myCarousel" data-slide-to="0" class="active list-inline-item italy "> <img src="~/Content/it.svg" style="width:64px; height:64px; " /></li>
+            <li data-target="#myCarousel" data-slide-to="1" class="list-inline-item uk"> <img src="~/Content/en.svg" style="width:64px; height:64px; " /></li>
+            <li data-target="#myCarousel" data-slide-to="2" class="list-inline-item deu"><img src="~/Content/deu.svg" style="width:64px; height:64px; " /></li>
+        </ul>
+        @*</div>*@
+    </div>
+</div>
+<!--slide end-->

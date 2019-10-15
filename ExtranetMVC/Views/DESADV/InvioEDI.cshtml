@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Invia la spedizione";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+<style>
+    .select-wrapper {
+        width: 280px;
+    }
+</style>
+<h3>Invia Spedizione</h3>
+<div class="container">
+    <div class="row">
+        <div class="s12">
+            <div class="s6 input-field">
+                @*@Html.DropDownList("Cliente", null, "-- Seleziona un cliente --", htmlAttributes: new { @class = " ", @id = "idCliente" })*@
+                <select id="idCliente">@ViewBag.Cliente</select>
+                <select id="ddlTestate">@ViewBag.Testata</select>
+                <button class="btn waves-effect waves-light" id="btnInvia">
+                    Invia
+                    <i class="material-icons right">send</i>
+                </button>
+
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="modalEsito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog " style="border: 1pt solid #fff" role="document">
+                    <div class="modal-content bg-black" style="border-bottom:none;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalEsitoTitolo"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span style="color:ghostwhite" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="border:none;" id="modalEsitoBody">
+
+                        </div>
+                        <div class="modal-footer" style="border-top:none;">
+                            <button @*href="~/DESADV/InvioEDI"*@ id="closeButton" type="button" class="btn btn-secondary" @*data-dismiss="modal"*@>Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <table id="spedizioni" class="display table table-sm table-hover">
+
+        <thead>
+            <tr>
+                <th class="intestazioneGruppo ">Cliente</th>
+                <th class="intestazioneGruppo ">Numero</th>
+                <th class="intestazioneGruppo">Data Spedizione</th>
+                <th class="intestazioneGruppo">Bolla</th>
+                <th class="intestazioneGruppo ">Articolo</th>
+                <th class="intestazioneGruppo">Quantità</th>
+                <th class="intestazioneGruppo">Stato</th>
+            </tr>
+
+        </thead>
+
+    </table>
+</div>
+<style>
+    #spedizioni th {
+        color: rgb(204, 204, 204);
+        
+        background-color: #262626
+    }
+    #spedizioni tr {
+        color: #000;
+        font-size:1.2em;
+        font-stretch:wider;
+    }
+    #spedizioni tr:hover{
+        background-color:#fff;
+    }
+</style>
+@section scripts{
+    <script src="~/Scripts/Desadv/InvioEDI.js?v=1"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-html5-1.5.2/datatables.min.js"></script>
+}

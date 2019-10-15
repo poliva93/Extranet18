@@ -1,0 +1,82 @@
+﻿@model Extranet_EF.EDI_TESTATA
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EDI_TESTATA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FORNITORE.CLFCOD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FORNITORE.CLFCOD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DATAPIANO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DATAPIANO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CLFDES)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CLFDES)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CLFIND)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CLFIND)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MAGAZZINO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MAGAZZINO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CONTATTOLOG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CONTATTOLOG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CONTATTOFOR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CONTATTOFOR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DATAVIS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DATAVIS)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

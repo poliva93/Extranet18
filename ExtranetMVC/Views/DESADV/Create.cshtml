@@ -1,0 +1,142 @@
+﻿
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+<style>
+    .select-wrapper {
+        width: 280px;
+    }
+</style>
+<h3>Crea Spedizione</h3>
+
+@*<form class="col s12">*@
+<div class="container">
+    <div class="row">
+        <div class=" col-sm-12 input-field">
+            <div class=" col-sm-5 input-field">
+                <select id="idCliente"></select>
+            </div>
+            <div class=" col-sm-5 ">
+                <label for="ddlPartenza">Partenza da:</label>
+                <select id="ddlPartenza">
+                    <option>DEUFOL</option>
+                    <option>CABIATE</option>
+                </select>
+            </div>
+        </div>
+
+        <div class=" col-sm-12 input-field">
+            <div class=" col-sm-5 input-field">
+                <label>Trasportatore</label>
+                <select id="ddlTrasportatore"></select>
+
+            </div>
+            <div class=" col-sm-5 input-field">
+                <label>Bolle</label>
+                <select class="" id="ddlBolle"></select>
+
+            </div>
+            @* browser-default *@
+
+
+        </div>
+
+        <div class=" col-sm-12 input-field">
+            <div class=" col-sm-12 input-field">
+                <label>Imballo</label>
+                <select id="ddlImbStandard">
+                    <option selected="selected" value="S">Standard</option>
+                    <option value="">IMBALLO A PERDERE</option>
+                </select>
+
+            </div>
+
+            @* browser-default *@
+
+
+        </div>
+
+        <button class="btn waves-effect waves-light" id="btnCrea">
+            Crea
+            <i class="material-icons right">send</i>
+        </button>
+    </div>
+</div>
+@*</form>*@
+
+
+
+
+@section Scripts
+        {
+
+    <script src="~/Scripts/Desadv/Create.js"></script>
+}
+
+
+
+@*//$("#idCliente").change(function () {
+    //    varCliente = $(this).val();
+    //    //use rfiSchooldropdown
+    //    $('#ddlBolle').empty();
+    //    varPartenza = $("#ddlPartenza").val();
+    //    $.ajax({
+    //        url: "/DESADV/listabolleCliente",
+    //        data: { Cliente: varCliente, Partenza: varPartenza },
+    //        type: 'POST',
+    //        success: function (bolle) {
+    //            // states is your JSON array
+    //            var $select = $('#ddlBolle');
+    //            $.each(bolle, function (i, bolla) {
+    //                $('<option>', {
+    //                    value: bolla.id,
+    //                    text: bolla.bolla
+    //                }).html(bolla.bolla).appendTo($select);
+    //            });
+    //            $.ajax({
+    //                url: "/DESADV/listaTrasportatore?Cliente=" + varCliente,
+    //                type: 'POST',
+    //                success: function (trasportatore) {
+    //                    // states is your JSON array
+    //                    var $select = $('#ddlTrasportatore');
+    //                    $('#ddlTrasportatore').empty();
+    //                    $.each(trasportatore, function (i, trasportatore) {
+    //                        $('<option>', {
+    //                            value: trasportatore,
+    //                            text: trasportatore
+    //                        }).html(trasportatore).appendTo($select);
+    //                    });
+    //                }
+    //            })
+    //            $('select').formSelect();
+    //        }
+
+    //    });
+
+    //});
+    //varCliente = $("#idCliente").val();
+    //varPartenza = $("#ddlPartenza").val();
+    //$.ajax({
+    //    url: "/DESADV/listabolleCliente",
+    //    data: { Cliente: varCliente, Partenza: varPartenza },
+    //    type: 'POST',
+    //    success: function (bolle) {
+    //        // states is your JSON array
+    //        var $select = $('#ddlBolle');
+    //        $.each(bolle, function (i, bolla) {
+    //            $('<option>', {
+    //                value: bolla.id,
+    //                text: bolla.bolla
+    //            }).html(bolla.bolla).appendTo($select);
+    //        });
+    //    }
+    //});*@
+
+
+
+
+
+
+
+
