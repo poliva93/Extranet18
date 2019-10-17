@@ -7,6 +7,8 @@ namespace ExtranetMVC.Models
 {
     public class DesadvAnagrafica
     {
+        public int ID { get; set; }
+
         public string CLIENTE { get; set; }
 
         public string RAGIONESOCIALE { get; set; }

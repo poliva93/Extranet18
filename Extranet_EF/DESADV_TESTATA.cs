@@ -14,6 +14,8 @@ namespace Extranet_EF
             DESADV_IMBALLI = new HashSet<DESADV_IMBALLI>();
         }
 
+        public int ID_ASN { get; set; }
+
         [Key]
         [Column(Order = 0)]
         [StringLength(50)]

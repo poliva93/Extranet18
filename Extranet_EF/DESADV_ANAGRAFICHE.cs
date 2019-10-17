@@ -14,6 +14,8 @@ namespace Extranet_EF
             DESADV_TESTATA = new HashSet<DESADV_TESTATA>();
         }
 
+        public int ID { get; set; }
+
         [Key]
         [StringLength(50)]
         public string CLIENTE { get; set; }

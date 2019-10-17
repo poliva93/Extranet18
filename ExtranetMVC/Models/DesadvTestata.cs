@@ -8,6 +8,8 @@ namespace ExtranetMVC.Models
 {
     public class DesadvTestata
     {
+        public int ID_ASN { get; set; }
+
         public string CLIENTE { get; set; }
 
         
@@ -22,7 +24,6 @@ namespace ExtranetMVC.Models
         
         public string FECDES { get; set; }
 
-  
         public string FECENT { get; set; }
         
         public string FECSAL { get; set; }

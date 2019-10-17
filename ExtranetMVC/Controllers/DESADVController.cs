@@ -81,17 +81,21 @@ namespace ExtranetMVC.Controllers
             string sNumero = "";
             string sFinalD = "";
             string strConnAlnus = "";
+            int iASN;
             ConnectionStringSettings cnnString = ConfigurationManager.ConnectionStrings["ExtranetDB"];
             string strConn = cnnString.ConnectionString;
             //vado a prendere i dati di anagrafica e l'ultimo numero di spedizione
             var testata = new DESADV_TESTATA();
             using (SqlConnection sqlConnection = new SqlConnection(strConn))
             {
+                
                 sqlConnection.Open();
-                string StrSql = "select *, isnull((select MAX(cast(NUMDES as integer)) FROM DESADV_TESTATA d where  d.CLIENTE=a.CLIENTE),0) numero from DESADV_ANAGRAFICHE a where a.CLIENTE='" + cliente + "'";
+                string StrSql = "select *, isnull((select MAX(ID_ASN)+1 from DESADV_TESTATA where Cliente='" + cliente + "')  ,0 ) maxASN, isnull((select MAX(cast(NUMDES as integer)) FROM DESADV_TESTATA d where  d.CLIENTE=a.CLIENTE),0) numero from DESADV_ANAGRAFICHE a where a.CLIENTE='" + cliente + "'";
                 SqlCommand sqlCmd = new SqlCommand(StrSql, sqlConnection);
                 SqlDataReader reader = sqlCmd.ExecuteReader();
                 reader.Read();
+                iASN = Int32.Parse(reader["maxASN"].ToString());
+                testata.ID_ASN = iASN;
                 sFinalD = reader["FINALDESCARGA"].ToString();
                 testata.CLIENTE = cliente;
                 sNumero = (Int32.Parse(reader["numero"].ToString()) + 1).ToString();
@@ -1097,8 +1101,8 @@ namespace ExtranetMVC.Controllers
                 db.SaveChanges();
             }
             DESADV_TESTATA testata = db.DESADV_TESTATA.Find(Cliente, sNumero);
-            //RICHIESTA DA PARTE DI JUAN: INIZIARE SEMPRE CON 1. TOLGO IL CLIENTE PRIMA DEL NUMERO. ANULLATA
-            sID = testata.CLIENTE.ToString() + testata.NUMDES.ToString();
+                //RICHIESTA DA PARTE DI JUAN: INIZIARE SEMPRE CON 1. TOLGO IL CLIENTE PRIMA DEL NUMERO. ANULLATA
+                sID = testCliente.ID.ToString() + testata.ID_ASN.ToString();
             //sID =  testata.NUMDES.ToString();
             sMessaggio = "";
             sMessaggio += sID.ToString().PadRight(35, ' ')
