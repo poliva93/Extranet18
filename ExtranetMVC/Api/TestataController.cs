@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -35,8 +38,9 @@ namespace ExtranetMVC.Api
             var test= JsonConvert.DeserializeObject(ticket.UserData);
             JObject jObject = JObject.Parse(JsonConvert.DeserializeObject(ticket.UserData).ToString());
             string interno = (string)jObject.SelectToken("DOI");
-            
+            //User.Identity   
 
+            //if (interno!="y")
             if (interno!="y")
             {
                 if (user == null)
@@ -45,7 +49,7 @@ namespace ExtranetMVC.Api
                     return Content(HttpStatusCode.NoContent, "Utente non trovato");
                 }
             }
-            if (interno=="y")
+            if (interno == "y")
             {
                 
                 var testate = db.EDI_TESTATA.Where(t => t.NUMORDINE == ordine)
@@ -102,6 +106,61 @@ namespace ExtranetMVC.Api
 
             return Ok(ordini);
         }
+
+
+        [HttpGet]
+        [Route("api/ordine/invio/{ordine}/{fornitore}/{email}")]
+        public IHttpActionResult Invio(string ordine, string fornitore, string email)
+        {
+            try
+            {
+                string esecod, sezionale, numero;
+                esecod = ordine.Substring(0, 4);
+                sezionale = ordine.Substring(4, 2).ToUpper();
+                numero = ordine.Substring(6);
+
+                var oldT = db.EDI_TESTATA.Where(e => e.NUMORDINE == ordine).Select(x => x.ID).Max();
+
+                ConnectionStringSettings cnnString = ConfigurationManager.ConnectionStrings["AlnusConnection"];
+                string strConn = cnnString.ConnectionString;
+                using (var conn = new SqlConnection(strConn))
+                using (var command = new SqlCommand("prEDI_Extranet_Piani_Richiesta", conn)
+                {
+
+                    CommandType = CommandType.StoredProcedure
+                })
+                {
+                    command.Parameters.Add(new SqlParameter("@FOR_CODICE", fornitore));
+                    command.Parameters.Add(new SqlParameter("@ESECOD", esecod));
+                    command.Parameters.Add(new SqlParameter("@ORFSEZ", sezionale));
+                    command.Parameters.Add(new SqlParameter("@ORFNUM", numero));
+                    command.Parameters.Add(new SqlParameter("@EmailSN", email));
+                    conn.Open();
+                    command.ExecuteNonQuery();
+                }
+                var newT = db.EDI_TESTATA.Where(e => e.NUMORDINE == ordine).Select(x => x.ID).Max();
+                if (newT > oldT)
+                {
+                    return Ok("Invio effettuato!");
+
+                }
+                else
+                {
+                    var rispostaErrore = new { status = "500", data = "Impossibile inviare il piano. Controllare se l'ordine è rilasciato, altrimenti avvisare EDP" };
+                    return Json(rispostaErrore);
+
+                }
+                }
+            catch( Exception ex)
+            {
+                //return Content(HttpStatusCode.BadRequest, "Impossibile inviare il piano. Controllare se l'ordine è rilasciato, altrimenti avvisare EDP. Codice errore: " + ex.Message.ToString());
+                var rispostaErrore = new { status = "500", data = "Impossibile inviare il piano. Controllare se l'ordine è rilasciato, altrimenti avvisare EDP. Codice errore: " + ex.Message.ToString() };
+                return Json(rispostaErrore);
+            }
+        }
+
+
+
         [HttpGet]
         [Route("api/ordineChecked/{username}/{ordine}/{testata}")]
         public IHttpActionResult ordineChecked(string username, string ordine, int testata)

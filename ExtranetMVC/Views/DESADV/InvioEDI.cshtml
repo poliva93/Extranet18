@@ -10,19 +10,21 @@
         width: 280px;
     }
 </style>
-<h3>Invia Spedizione</h3>
-<div class="container">
+@*<h3>Invia Spedizione</h3>*@
+<div class="container" style="margin:0px;">
     <div class="row">
-        <div class="s12">
-            <div class="s6 input-field">
+            <div class="col-11">
                 @*@Html.DropDownList("Cliente", null, "-- Seleziona un cliente --", htmlAttributes: new { @class = " ", @id = "idCliente" })*@
                 <select id="idCliente">@ViewBag.Cliente</select>
                 <select id="ddlTestate">@ViewBag.Testata</select>
                 <button class="btn waves-effect waves-light" id="btnInvia">
                     Invia
-                    <i class="material-icons right">send</i>
                 </button>
-
+                </div>
+        <div class=" col-1">
+                <button class="" id="btnLabels">
+                    Labels
+                </button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="modalEsito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -43,11 +45,31 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <!--fine modal-->
+            <!-- Modal -->
+            <div class="modal fade " id="modalLabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog " style="border: 1pt solid #fff" role="document">
+                    <div class="modal-content bg-black" style="border-bottom:none;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabelTitolo"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span style="color:ghostwhite" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="border:none;" id="modalLabelBody">
+
+                        </div>
+                        <div class="modal-footer" style="border-top:none;">
+                            <button @*href="~/DESADV/InvioEDI"*@ data-dismiss="modal"  type="button" class="btn btn-secondary" @*data-dismiss="modal"*@>Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--fine modal-->
     </div>
 </div>
 <div>
-    <table id="spedizioni" class="display table table-sm table-hover">
+    <table id="spedizioni" class="display table table-sm " @*table-hover*@>
 
         <thead>
             <tr>
@@ -58,6 +80,7 @@
                 <th class="intestazioneGruppo ">Articolo</th>
                 <th class="intestazioneGruppo">Quantità</th>
                 <th class="intestazioneGruppo">Stato</th>
+                @*<th class="intestazioneGruppo">Labels</th>*@
             </tr>
 
         </thead>
@@ -76,7 +99,8 @@
         font-stretch:wider;
     }
     #spedizioni tr:hover{
-        background-color:#fff;
+        /*background-color:#fff;*/
+        cursor:pointer;
     }
 </style>
 @section scripts{

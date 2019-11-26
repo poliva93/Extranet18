@@ -6,28 +6,61 @@
     Layout = "~/Views/Shared/_LayoutLargo.cshtml";
 }
 <style>
-    body{
-        color:#000
+    body {
+        color: #000
     }
 </style>
 
 <div id="pianoFornitore">
 
     <div class="noStampa ">
-        <div id="testataPiano" >
+        <div id="testataPiano">
             <div class="">
                 <h3 id="nomeFornitore"></h3>
                 <p id="btnStampa" class="btn btn-primary">Print</p>
+                <!--bottone per inviare nuovamente il piano-->
+                @*<select class="form-control" id="selFornitore"></select>*@
+                @*@Html.DropDownList("selFornitore", (IEnumerable<SelectListItem>)ViewBag.lClienti, null, new { @class = "form-control" })*@
+                @if (ViewBag.lClienti != null)
+                {
+                    <p id="btnInviaPiano" class="btn btn-warning">Invia piano</p>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog " style="border: 1pt solid #fff" role="document">
+                            <div class="modal-content" style="border-bottom:none;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabelTitolo">Titolo del Modal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span style="color:ghostwhite" aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="border:none;" id="modalLabelBody">
+                                    Vuoi inviare il piano?
+                                </div>
+                                <div class="modal-footer" style="border-top:none;">
+                                    <button @*href="~/DESADV/InvioEDI"*@ data-dismiss="modal" type="button" class="btn btn-secondary" @*data-dismiss="modal"*@>Annulla</button>
+                                    <button id="btnInvioNoMail" onclick="pInvio(this)" class="btn btn-danger">NO Email</button>
+                                    <button id="btnInvioMail" onclick="pInvio(this)" class="btn btn-primary">Invia Email</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--fine modal-->
+                }
             </div>
+
+
 
             @if (ViewBag.lClienti != null)
             {
+                <!--selezione fornitore da PianoFornitoreController-->
                 <div class="">
                     <div class="form-group">
                         <label for="selFornitore">Fornitore</label>
                         @*<select class="form-control" id="selFornitore"></select>*@
                         @*@Html.DropDownList("selFornitore", (IEnumerable<SelectListItem>)ViewBag.lClienti, null, new { @class = "form-control" })*@
-                        @Html.DropDownList("selFornitore",new SelectList( ViewBag.lClienti,"Value","Text"), null, new { @class = "form-control" })
+                        @Html.DropDownList("selFornitore", new SelectList(ViewBag.lClienti, "Value", "Text"), null, new { @class = "form-control" })
                     </div>
                 </div>
             }
@@ -93,7 +126,7 @@
 
 
     @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>*@
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>*@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-html5-1.5.2/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
 }

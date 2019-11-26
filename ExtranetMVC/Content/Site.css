@@ -105,6 +105,9 @@ textarea {
 .spedizioneChiusa {
     background-color: lightcoral;
 }
+.spedizioneSelezionata {
+    background-color: #f5ff00;
+}
 .spedizioneAperta {
     background-color: #72dc09;
 }

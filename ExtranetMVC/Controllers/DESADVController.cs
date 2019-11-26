@@ -181,8 +181,15 @@ namespace ExtranetMVC.Controllers
                 }
                 testata.NUMTRANOLD = strNumeroOld;
                 testata.NUMTRANNEW = testata.NUMDES.PadLeft(5, '0');
-
-                testata.LUGENTREGA = reader["FINALDESCARGA"].ToString();
+                if(EDI.ToString()=="VDA")
+                {
+                    testata.LUGENTREGA = reader["FINALDESCARGA"].ToString();
+                }
+                else //EDIFACT non us aquesto campo
+                {
+                    testata.LUGENTREGA = "NUL";
+                }
+                
                 testata.CONTRATO = "";
                 testata.STATO = "APERTO";
 
@@ -377,7 +384,8 @@ namespace ExtranetMVC.Controllers
                                     var rigaImb = new DESADV_IMBALLI();
                                     rigaImb.CLIENTE = cliente;
                                     rigaImb.IDNUMDES = sNumero;
-                                    rigaImb.IDEMB = iCPS.ToString(); //i.ToString(); //v1.7 Donatiello ha detto di mettere IDEMB=CPS
+                                    rigaImb.IDEMB = iCPS.ToString(); 
+                                    //i.ToString(); //v1.7 Donatiello ha detto di mettere IDEMB=CPS
                                     rigaImb.CPS = iCPS.ToString();
 
                                     //qua va gestito in caso di bancale non pieno per le scatole...x ford le scatole sono fisse
@@ -992,6 +1000,7 @@ namespace ExtranetMVC.Controllers
                                     db.SaveChanges();
                                 }
                                 //iEtichetta ++;  20191007
+                                iSlabel--; //causato dall'ultimo incremento del for che ne aggiunge1 in più. Ad es se scatole 20 la variabile arriva a 21. Al secondo giro l'iniz del for aumenta nuovamente di 1 e quindi va a 22 l'etichetta successiva
                             }
                         }
 
@@ -1045,6 +1054,7 @@ namespace ExtranetMVC.Controllers
             }
             return View();
         }
+        
 
         [System.Web.Http.HttpPost]
         [ValidateAntiForgeryToken]
